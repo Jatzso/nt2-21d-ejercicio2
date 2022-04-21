@@ -14,8 +14,30 @@
 
 
 <div class="container-fluid mt-3" id="app">
-    <input type="text" class="form-control" v-model="criterioDeBusqueda"
+    <!--<input type="text" class="form-control" v-model="criterioDeBusqueda"
         placeholder="Ingresar un criterio de busqueda...">
+        <br>-->
+        <!--*********************************************-->
+        
+        <!--Filtros de búsqueda por Nombre y Dni (excluyentes)
+        con Alert cuando no se ingresan al menos 3 caracteres en los campos-->
+
+        <input type="text" class="form-control" v-model="criterioPorNombre"
+        placeholder="Ingrese el nombre...">
+
+        <div v-show="criterioPorNombre.length < 3" class="alert alert-danger mt-3" role="alert">
+            ¡Debe ingresar al menos 3 letras!
+          </div>
+
+        <br>
+        <input type="text" class="form-control" v-model="criterioPorDni"
+        placeholder="Ingrese el dni..">
+        
+        <div v-show="criterioPorDni.length < 3" class="alert alert-danger mt-3" role="alert">
+            ¡Debe ingresar al menos 3 numeros!
+          </div>
+        
+        <!--*********************************************-->
     <br>
     <div class="card-deck m-0">
         <div class="row">
@@ -39,7 +61,11 @@
     new Vue({
         el: '#app',
         data: {
-            criterioDeBusqueda: '',
+            //criterioDeBusqueda: '',
+            //*********************//
+            criterioPorNombre: '',
+            criterioPorDni: '',
+            //********************//
             //Aquí, en este array es donde tienen que agregar su información
             personas: [
                 {
@@ -49,10 +75,36 @@
                     dni: "20442873"
                 },
                 {
-                    nombre: "...",
-                    apellido: "...",
-                    correo: "...",
-                    dni: "..."
+                    nombre: "Santiago",
+                    apellido: "Ojeda",
+                    correo: "santi24ojeda@gmail.com",
+                    dni: "11222333"
+                },
+                {
+                    nombre: "Ariel",
+                    apellido: "Rausch",
+                    correo: "ari_rausch@gmail.com",
+                    dni: "22333444"
+                },
+                {
+                    nombre: "Carlos",
+                    apellido: "Dragone",
+                    correo: "c.dragone@hotmail.com",
+                    dni: "33444555"
+                },
+
+                {
+                    nombre: "Carlos",
+                    apellido: "Weisz",
+                    correo: "carlos_w@hotmail.com",
+                    dni: "44555666"
+                },
+
+                {
+                    nombre: "Ariel",
+                    apellido: "Skip",
+                    correo: "skip.Ariel@hotmail.com",
+                    dni: "55666777"
                 },
             ]
 
@@ -60,15 +112,21 @@
         computed: {
             personasFiltradas() {
                 return this.personas.filter((persona) => {
-                    let registroCompleto = `${persona.nombre} ${persona.apellido} ${persona.dni} ${persona.correo}`
-                    return registroCompleto.toLowerCase().includes(this.criterioDeBusqueda.toLowerCase())
+                    //let registroCompleto = `${persona.nombre} ${persona.apellido} ${persona.dni} ${persona.correo}`
+                    //Ahora el método filtra por Nombre y Dni
+                    let registroNombre = `${persona.nombre}`
+                    let registroDni = `${persona.dni}`
+                    return registroNombre.toLowerCase().includes(this.criterioPorNombre.toLowerCase()) && 
+                            registroDni.toLowerCase().includes(this.criterioPorDni.toLowerCase())
                 });
-            }
+            },
+
         },
         methods: {
             getNombreCompleto(persona) {
                 return `${persona.nombre} ${persona.apellido}`
             }
         }
+       
     });
 </script>
